@@ -33,13 +33,13 @@ export class QuizCollectionComponent implements OnInit {
 		this.pagedResponse$ = this.quizCollectionService.getQuizCollections(
 			this.paginationModel.pageNumber, 
 			this.paginationModel.pageSize);
-	  }
+	}
 	
-	  previousPage() {
+	previousPage() {
 		this.paginationModel.pageNumber -= 1;
 		this.pagedResponse$ = this.quizCollectionService.getQuizCollections(
 			this.paginationModel.pageNumber, 
 			this.paginationModel.pageSize);
-	  }
+	}
 
 }
