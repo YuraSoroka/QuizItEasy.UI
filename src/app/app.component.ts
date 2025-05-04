@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { QuizCollectionComponent } from "./features/quiz-collections/components/quiz-collection/quiz-collection.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet, 
+    QuizCollectionComponent, 
+    QuizCollectionComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

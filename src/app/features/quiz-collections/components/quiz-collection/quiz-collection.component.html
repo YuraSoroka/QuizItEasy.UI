@@ -1,0 +1,18 @@
+<div *ngIf="pagedResponse$ | async as response; else loading">
+    <h2>Page {{ response.pageNumber }} of {{ response.totalPages }}</h2>
+
+      <ul *ngFor="let item of response.items">
+        {{ item.name }}
+      </ul>
+
+    <div>
+      <p-button [disabled]="!response.hasPreviousPage" label="Previous" />
+      <p-button [disabled]="!response.hasNextPage" label="Next" />
+    </div>
+  
+    <p>Total items: {{ response.totalCount }}</p>
+  </div>
+  
+  <ng-template #loading>
+    <p>Loading...</p>
+  </ng-template>
