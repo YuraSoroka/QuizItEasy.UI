@@ -5,6 +5,7 @@ import { QuizCollectionItem } from '../../interfaces/quiz-collection-item';
 import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { PaginationModel } from '../../../../shared/models/pagination.model';
 
 @Component({
 	selector: 'quiz-collection',
@@ -16,12 +17,29 @@ import { ButtonModule } from 'primeng/button';
 
 export class QuizCollectionComponent implements OnInit { 
 
+	paginationModel : PaginationModel = new PaginationModel();
 	pagedResponse$: Observable<PagedResponse<QuizCollectionItem>> = of();;
 
 	constructor(private quizCollectionService: QuizCollectionService) { }
 
 	ngOnInit(): void {
-		this.pagedResponse$ = this.quizCollectionService.getQuizCollections();
+		this.pagedResponse$ = this.quizCollectionService.getQuizCollections(
+			this.paginationModel.pageNumber, 
+			this.paginationModel.pageSize);
 	}
+
+	nextPage() {
+		this.paginationModel.pageNumber += 1;
+		this.pagedResponse$ = this.quizCollectionService.getQuizCollections(
+			this.paginationModel.pageNumber, 
+			this.paginationModel.pageSize);
+	  }
+	
+	  previousPage() {
+		this.paginationModel.pageNumber -= 1;
+		this.pagedResponse$ = this.quizCollectionService.getQuizCollections(
+			this.paginationModel.pageNumber, 
+			this.paginationModel.pageSize);
+	  }
 
 }

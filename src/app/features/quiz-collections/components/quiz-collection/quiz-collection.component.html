@@ -6,8 +6,8 @@
       </ul>
 
     <div>
-      <p-button [disabled]="!response.hasPreviousPage" label="Previous" />
-      <p-button [disabled]="!response.hasNextPage" label="Next" />
+      <p-button [disabled]="!response.hasPreviousPage" label="Previous" (onClick)="previousPage()"/>
+      <p-button [disabled]="!response.hasNextPage" label="Next" (onClick)="nextPage()"/>
     </div>
   
     <p>Total items: {{ response.totalCount }}</p>
