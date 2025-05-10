@@ -1,0 +1,38 @@
+.homepage-gradient{
+    background: 
+        linear-gradient(0deg, #ecfdf5, #bbf7d0);
+    clip-path: ellipse(110% 87% at 93% 13%);
+
+    padding: 24px 256px 92px;
+}
+
+.font-light{
+    font-weight: 300;
+    display: block;
+}
+
+.homepage-gradient{
+    color: var(--p-surface-700);
+    
+    h1{
+        display: block;
+        font-size: 48px;
+    }
+}
+
+.quiz-collection-container{
+
+    padding: 128px 64px;
+
+    .quiz-collection-grid {
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 48px;
+    }
+}
+
+::ng-deep .p-card{
+    box-shadow: none;
+    border: 1px solid var(--p-surface-200);
+}
