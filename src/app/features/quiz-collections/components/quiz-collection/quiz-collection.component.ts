@@ -6,10 +6,25 @@ import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PaginationModel } from '../../../../shared/models/pagination.model';
+import { FormsModule } from '@angular/forms';
+import { InputGroup } from 'primeng/inputgroup';
+import { InputTextModule } from 'primeng/inputtext';
+import { MenuModule } from 'primeng/menu';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { CardModule } from 'primeng/card';
 
 @Component({
 	selector: 'quiz-collection',
-	imports: [CommonModule, ButtonModule],
+	imports: [
+		CommonModule, 
+		ButtonModule, 
+		FormsModule, 
+		InputGroup, 
+		InputGroupAddonModule, 
+		InputTextModule, 
+		ButtonModule, 
+		MenuModule,
+		CardModule],
 	templateUrl: './quiz-collection.component.html',
 	styleUrl: './quiz-collection.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
