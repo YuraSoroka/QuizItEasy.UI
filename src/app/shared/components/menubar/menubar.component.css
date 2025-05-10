@@ -1,0 +1,39 @@
+::ng-deep .p-megamenu {
+  border: none !important;
+}
+
+::ng-deep .p-megamenu-horizontal{
+  padding: 24px !important;
+}
+
+::ng-deep .p-button {
+  font-size: 18px;
+}
+
+.navbar-brand .a{
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  text-decoration: none;
+  position: relative;
+  letter-spacing: 1px;
+}
+
+.navbar-brand .highlight {
+  color: var(--p-primary-color);
+  font-weight: 500; /* vibrant green accent */
+}
+
+.navbar-brand :hover{
+  cursor: pointer;
+}
+
+.navbar-brand {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--p-surface-500);
+  position: relative;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
