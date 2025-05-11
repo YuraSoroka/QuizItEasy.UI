@@ -36,10 +36,6 @@
     box-shadow: none;
     border-radius: 10px;
     border: 2px solid var(--p-surface-200);
-    /* transition: 0.05s linear;  */
-}
-
-:host ::ng-deep .p-card-body{
 }
 
 :host ::ng-deep .p-card-title{
