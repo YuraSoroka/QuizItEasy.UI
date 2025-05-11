@@ -13,3 +13,15 @@ body{
     margin-left: auto;
     margin-right: auto;
 }
+
+.flex{
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.justify-center{
+    justify-content: center;
+}

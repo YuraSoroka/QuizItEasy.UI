@@ -32,7 +32,45 @@
     }
 }
 
-::ng-deep .p-card{
+:host ::ng-deep .p-card{
     box-shadow: none;
-    border: 1px solid var(--p-surface-200);
+    border-radius: 10px;
+    border: 2px solid var(--p-surface-200);
+    /* transition: 0.05s linear;  */
+}
+
+:host ::ng-deep .p-card-body{
+}
+
+:host ::ng-deep .p-card-title{
+    font-size: 24px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+:host ::ng-deep .p-card-subtitle{
+    font-size: 24px;
+    font-weight: 300;
+    margin: 0 auto;
+    text-align: center;
+}
+
+:host ::ng-deep .p-card-footer{
+    margin: 0 auto;
+}
+
+
+:host ::ng-deep .p-card:hover{
+    border-color: var(--p-emerald-200);
+    cursor: pointer;
+}
+
+.tags-container{
+    gap: 12px;
+    padding: 12px;
+    flex-wrap: nowrap; 
+}
+
+.paginator-container{
+    margin-top: 64px;
 }

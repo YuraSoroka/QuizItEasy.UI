@@ -1,35 +1,48 @@
 <div>
-  <div class="homepage-gradient">
-      <h1>
-        <span class="font-light block">Discover</span>
-        public collections
-      </h1>
-  </div>
+  	<div class="homepage-gradient">
+  	    <h1>
+  	      	<span class="font-light block">Discover</span>
+  	      	public collections
+  	    </h1>
+  	</div>
 </div>
 
 
 <div class="quiz-collection-container" *ngIf="pagedResponse$ | async as response; else loading">
+  	<div class="quiz-collection-grid">
+  	  	<p-card *ngFor="let item of response.items" 
+  	  	    header="{{ item.id }}" 
+  	  	    subheader="{{ item.code }}">
+		
+  	  	  	<p-divider />
 
+			<div class="tags-container flex justify-center">
+				<p-tag icon="pi pi-hashtag" value="azure" />
+				<p-tag icon="pi pi-hashtag" value="education" />
+				<p-tag icon="pi pi-hashtag" value="quiz" />
+			</div>
 
-  <div class="quiz-collection-grid">
-    <p-card *ngFor="let item of response.items" header="{{ item.id }}" subheader="{{ item.code }}">
-      <ng-template pTemplate="content">
-        <p>{{ item.name }}</p>
-      </ng-template>
-    </p-card>
-  </div>
+  	  	  	<ng-template pTemplate="content">
+  	  	  	  	<p>{{ item.name }} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa atque earum omnis. Sequi soluta explicabo aliquam cupiditate optio quia. Cupiditate dicta quas atque aperiam vero eum facere corporis voluptate adipisci!</p>
+  	  	  	</ng-template>
+			
+  	  	  	<ng-template pTemplate="footer">
+  	  	  	  	<p-button label="View collection" [link]="true" />
+  	  	  	</ng-template>
+  	  	</p-card>
+  	</div>
   
-  <h3>Page {{ response.pageNumber }} of {{ response.totalPages }}</h3>
-  <div>
-    <p-button [disabled]="!response.hasPreviousPage" label="Previous" (onClick)="previousPage()"/>
-    <p-button [disabled]="!response.hasNextPage" label="Next" (onClick)="nextPage()"/>
-  </div>
-  
-  <p>Total items: {{ response.totalCount }}</p>
+	<div class="paginator-container flex justify-center">
+    	<p-paginator 
+			[first]="firstCounter"
+			(onPageChange)="onPageChange($event)"
+			[rows]="paginationModel.pageSize" 
+			[totalRecords]="response.totalCount"/>
+	</div>
 </div>
   
 <ng-template #loading>
-  <p>Loading...</p>
+  	<p>Loading...</p>
 </ng-template>
 
   
