@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { QuizCollectionComponent } from "./features/quiz-collections/components/quiz-collection/quiz-collection.component";
 import { MenubarComponent } from './shared/components/menubar/menubar.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [
-    MenubarComponent,
-    QuizCollectionComponent
+    RouterOutlet,
+    MenubarComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
