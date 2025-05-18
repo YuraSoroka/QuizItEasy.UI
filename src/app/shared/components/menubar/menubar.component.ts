@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MegaMenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -7,9 +8,9 @@ import { MegaMenu } from 'primeng/megamenu';
 
 @Component({
   selector: 'menubar',
-  imports: [MegaMenu, ButtonModule, CommonModule, AvatarModule],
+  imports: [MegaMenu, ButtonModule, CommonModule, AvatarModule, RouterLink],
   templateUrl: './menubar.component.html',
-  styleUrl: './menubar.component.css',
+  styleUrl: './menubar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenubarComponent implements OnInit {
@@ -56,8 +57,9 @@ export class MenubarComponent implements OnInit {
               ]
           },
           {
-              label: 'Resources',
-              root: true
+              label: 'Collections',
+              root: true,
+              url: "quiz-collections"
           },
           {
               label: 'Contact',

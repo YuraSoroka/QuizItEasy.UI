@@ -1,0 +1,72 @@
+.homepage-gradient{
+    background: 
+        linear-gradient(0deg, #ecfdf5, #bbf7d0);
+    clip-path: ellipse(110% 87% at 93% 13%);
+
+    padding: 24px 256px 92px;
+}
+
+.font-light{
+    font-weight: 300;
+    display: block;
+}
+
+.homepage-gradient{
+    color: var(--p-surface-700);
+    
+    h1{
+        display: block;
+        font-size: 48px;
+    }
+}
+
+.quiz-collection-container{
+
+    padding: 128px 64px;
+
+    .quiz-collection-grid {
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 48px;
+    }
+}
+
+:host ::ng-deep .p-card{
+    box-shadow: none;
+    border-radius: 10px;
+    border: 2px solid var(--p-surface-200);
+}
+
+:host ::ng-deep .p-card-title{
+    font-size: 24px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+:host ::ng-deep .p-card-subtitle{
+    font-size: 24px;
+    font-weight: 300;
+    margin: 0 auto;
+    text-align: center;
+}
+
+:host ::ng-deep .p-card-footer{
+    margin: 0 auto;
+}
+
+
+:host ::ng-deep .p-card:hover{
+    border-color: var(--p-emerald-200);
+    cursor: pointer;
+}
+
+.tags-container{
+    gap: 12px;
+    padding: 12px;
+    flex-wrap: nowrap; 
+}
+
+.paginator-container{
+    margin-top: 64px;
+}

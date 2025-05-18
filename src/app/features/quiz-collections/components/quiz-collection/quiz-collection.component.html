@@ -1,186 +1,51 @@
-<!-- <h1>Public quiz collections</h1>
+<div>
+  	<div class="homepage-gradient">
+  	    <h1>
+  	      	<span class="font-light block">Discover</span>
+  	      	public collections
+  	    </h1>
+  	</div>
+</div>
 
 
-  <p-inputgroup>
-      <input pInputText placeholder="Keyword" />
-      <p-inputgroup-addon>
-          <p-button icon="pi pi-search" severity="secondary" variant="text" />
-      </p-inputgroup-addon>
-  </p-inputgroup>
+<div class="quiz-collection-container" *ngIf="pagedResponse$ | async as response; else loading">
+  	<div class="quiz-collection-grid">
+  	  	<p-card *ngFor="let item of response.items" 
+  	  	    header="{{ item.id }}" 
+  	  	    subheader="{{ item.code }}">
+		
+  	  	  	<p-divider />
 
+			<div class="tags-container flex justify-center">
+				<p-tag icon="pi pi-hashtag" value="azure" />
+				<p-tag icon="pi pi-hashtag" value="education" />
+				<p-tag icon="pi pi-hashtag" value="quiz" />
+			</div>
 
-<div *ngIf="pagedResponse$ | async as response; else loading">
+  	  	  	<ng-template pTemplate="content">
+  	  	  	  	<p>{{ item.name }} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa atque earum omnis. Sequi soluta explicabo aliquam cupiditate optio quia. Cupiditate dicta quas atque aperiam vero eum facere corporis voluptate adipisci!</p>
+  	  	  	</ng-template>
+			
+  	  	  	<ng-template pTemplate="footer">
+  	  	  	  	<p-button 
+					label="View collection" 
+					[link]="true"
+					[routerLink]="'/quiz-collections/' + item.id + '/questions'"/>
+  	  	  	</ng-template>
+  	  	</p-card>
+  	</div>
   
-  
-  
-  <div class="grid-container">
-    <div *ngFor="let item of response.items">
-      <p-card header="{{item.code}}">
-        <p class="m-0">
-          {{item.name}}
-        </p>
-      </p-card>
-    </div>
-  </div>
-  
-  <h3>Page {{ response.pageNumber }} of {{ response.totalPages }}</h3>
-  <div>
-    <p-button [disabled]="!response.hasPreviousPage" label="Previous" (onClick)="previousPage()"/>
-    <p-button [disabled]="!response.hasNextPage" label="Next" (onClick)="nextPage()"/>
-  </div>
-  
-  <p>Total items: {{ response.totalCount }}</p>
+	<div class="paginator-container flex justify-center">
+    	<p-paginator 
+			[first]="firstCounter"
+			(onPageChange)="onPageChange($event)"
+			[rows]="paginationModel.pageSize" 
+			[totalRecords]="response.totalCount"/>
+	</div>
 </div>
   
-  <ng-template #loading>
-    <p>Loading...</p>
-  </ng-template> -->
+<ng-template #loading>
+  	<p>Loading...</p>
+</ng-template>
 
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Quiz Collections</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background: #f9f9f9;
-        margin: 0;
-        padding: 20px;
-      }
-      header {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      header h1 {
-        font-size: 2em;
-        color: #333;
-      }
-      .search-bar {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 30px;
-      }
-      .search-bar input {
-        width: 300px;
-        padding: 10px;
-        font-size: 1em;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-      .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-      }
-      .card {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        transition: transform 0.2s ease;
-      }
-      .card:hover {
-        transform: translateY(-4px);
-      }
-      .card h3 {
-        margin: 0 0 10px 0;
-        font-size: 1.2em;
-        color: #333;
-      }
-      .card p {
-        margin: 5px 0;
-        color: #666;
-        font-size: 0.9em;
-      }
-      .tags {
-        margin-top: 10px;
-      }
-      .tag {
-        display: inline-block;
-        background: #e0e0e0;
-        color: #555;
-        font-size: 0.8em;
-        padding: 3px 8px;
-        border-radius: 12px;
-        margin-right: 5px;
-      }
-      .card-actions {
-        margin-top: 15px;
-        display: flex;
-        justify-content: space-between;
-      }
-      .card-actions a {
-        text-decoration: none;
-        color: #1976d2;
-        font-size: 0.9em;
-      }
-      .card-actions a:hover {
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-  <body>
-  
-  <header>
-    <h1>Explore Public Quiz Collections</h1>
-  </header>
-  
-  <div class="search-bar">
-    <input type="text" placeholder="Search quizzes by title, code, or tags...">
-  </div>
-  
-  <div class="grid-container">
-    <div class="card">
-      <h3>World Capitals Test</h3>
-      <p>Description: Test your knowledge of world capitals.</p>
-      <p>Code: capTest45</p>
-      <div class="tags">
-        <span class="tag">Geography</span>
-        <span class="tag">World</span>
-        <span class="tag">Trivia</span>
-      </div>
-      <div class="card-actions">
-        <a href="/quiz/capTest45">View Quiz</a>
-        <a href="/quiz/capTest45/edit">Update</a>
-      </div>
-    </div>
-  
-    <div class="card">
-      <h3>Science Fun Pack</h3>
-      <p>Description: Fun and challenging science questions.</p>
-      <p>Code: sciFun99</p>
-      <div class="tags">
-        <span class="tag">Science</span>
-        <span class="tag">Fun</span>
-        <span class="tag">Challenge</span>
-      </div>
-      <div class="card-actions">
-        <a href="/quiz/sciFun99">View Quiz</a>
-        <a href="/quiz/sciFun99/edit">Update</a>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Science Fun Pack</h3>
-      <p>Description: Fun and challenging science questions.</p>
-      <p>Code: sciFun99</p>
-      <div class="tags">
-        <span class="tag">Science</span>
-        <span class="tag">Fun</span>
-        <span class="tag">Challenge</span>
-      </div>
-      <div class="card-actions">
-        <a href="/quiz/sciFun99">View Quiz</a>
-        <a href="/quiz/sciFun99/edit">Update</a>
-      </div>
-    </div>
-  
-    <!-- Add more cards as needed -->
-  </div>
-  
-  </body>
-  </html>
   

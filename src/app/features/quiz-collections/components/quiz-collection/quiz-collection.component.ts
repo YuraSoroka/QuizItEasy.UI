@@ -7,34 +7,41 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PaginationModel } from '../../../../shared/models/pagination.model';
 import { FormsModule } from '@angular/forms';
-import { InputGroup } from 'primeng/inputgroup';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { CardModule } from 'primeng/card';
+import { TagModule } from 'primeng/tag';
+import { DividerModule } from 'primeng/divider';
+import { PaginatorModule } from 'primeng/paginator';
+import { RouterLink } from '@angular/router';
 
 @Component({
 	selector: 'quiz-collection',
 	imports: [
+		RouterLink,
 		CommonModule, 
 		ButtonModule, 
 		FormsModule, 
-		InputGroup, 
+		TagModule, 
 		InputGroupAddonModule, 
 		InputTextModule, 
 		ButtonModule, 
 		MenuModule,
-		CardModule],
+		CardModule,
+		DividerModule,
+		PaginatorModule],
 	templateUrl: './quiz-collection.component.html',
-	styleUrl: './quiz-collection.component.css',
+	styleUrl: './quiz-collection.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class QuizCollectionComponent implements OnInit { 
 
-	paginationModel : PaginationModel = new PaginationModel();
-	pagedResponse$: Observable<PagedResponse<QuizCollectionItem>> = of();;
-
+	paginationModel : PaginationModel = new PaginationModel(6);
+	pagedResponse$: Observable<PagedResponse<QuizCollectionItem>> = of();
+  	firstCounter: number = 0; 
+	
 	constructor(private quizCollectionService: QuizCollectionService) { }
 
 	ngOnInit(): void {
@@ -43,18 +50,12 @@ export class QuizCollectionComponent implements OnInit {
 			this.paginationModel.pageSize);
 	}
 
-	nextPage() {
-		this.paginationModel.pageNumber += 1;
-		this.pagedResponse$ = this.quizCollectionService.getQuizCollections(
-			this.paginationModel.pageNumber, 
-			this.paginationModel.pageSize);
-	}
-	
-	previousPage() {
-		this.paginationModel.pageNumber -= 1;
-		this.pagedResponse$ = this.quizCollectionService.getQuizCollections(
-			this.paginationModel.pageNumber, 
-			this.paginationModel.pageSize);
-	}
+	onPageChange(event: any) {
+		this.firstCounter = event.first;
+		this.paginationModel.pageNumber = event.page + 1;
 
+    	this.pagedResponse$ = this.quizCollectionService.getQuizCollections(
+			this.paginationModel.pageNumber, 
+			this.paginationModel.pageSize);
+  	}
 }

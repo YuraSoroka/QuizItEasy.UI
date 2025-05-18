@@ -1,0 +1,25 @@
+<!-- quiz-collection.component.html -->
+<div *ngIf="pagedResponse$ | async as pagedResponse; else loading">
+  <div *ngFor="let question of pagedResponse.items">
+    <h3>Question Type: {{ question.type }}</h3>
+
+    <!-- Option 2: Parse and display JSON as formatted text (if it's a JSON object) -->
+    <div *ngIf="isJson(question.questionJson)">
+      <pre>{{ question.questionJson | json }}</pre>
+      <div>{{getSingleSelectResponse(question.questionJson).Id}}</div>
+
+        <ng-container *ngFor="let question of pagedResponse.items">
+          <ng-container
+            *ngComponentOutlet="componentMap[question.type]; injector: createInjector(question.questionJson)">
+          </ng-container>
+        </ng-container>
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Loading indicator or empty state -->
+<ng-template #loading>
+  Loading questions...
+</ng-template>
