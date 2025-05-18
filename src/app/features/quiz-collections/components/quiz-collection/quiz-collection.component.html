@@ -27,7 +27,10 @@
   	  	  	</ng-template>
 			
   	  	  	<ng-template pTemplate="footer">
-  	  	  	  	<p-button label="View collection" [link]="true" />
+  	  	  	  	<p-button 
+					label="View collection" 
+					[link]="true"
+					[routerLink]="'/quiz-collections/' + item.id + '/questions'"/>
   	  	  	</ng-template>
   	  	</p-card>
   	</div>
