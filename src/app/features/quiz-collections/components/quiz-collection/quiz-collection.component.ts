@@ -14,10 +14,12 @@ import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { DividerModule } from 'primeng/divider';
 import { PaginatorModule } from 'primeng/paginator';
+import { RouterLink } from '@angular/router';
 
 @Component({
 	selector: 'quiz-collection',
 	imports: [
+		RouterLink,
 		CommonModule, 
 		ButtonModule, 
 		FormsModule, 
@@ -30,13 +32,13 @@ import { PaginatorModule } from 'primeng/paginator';
 		DividerModule,
 		PaginatorModule],
 	templateUrl: './quiz-collection.component.html',
-	styleUrl: './quiz-collection.component.css',
+	styleUrl: './quiz-collection.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class QuizCollectionComponent implements OnInit { 
 
-	paginationModel : PaginationModel = new PaginationModel(9);
+	paginationModel : PaginationModel = new PaginationModel(6);
 	pagedResponse$: Observable<PagedResponse<QuizCollectionItem>> = of();
   	firstCounter: number = 0; 
 	
