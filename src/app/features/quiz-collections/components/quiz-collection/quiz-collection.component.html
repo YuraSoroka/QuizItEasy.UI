@@ -13,34 +13,33 @@
   	  	<p-card *ngFor="let item of response.items" 
   	  	    header="{{ item.id }}" 
   	  	    subheader="{{ item.code }}">
-		
-  	  	  	<p-divider />
-
-			<div class="tags-container flex justify-center">
-				<p-tag icon="pi pi-hashtag" value="azure" />
-				<p-tag icon="pi pi-hashtag" value="education" />
-				<p-tag icon="pi pi-hashtag" value="quiz" />
-			</div>
-
-  	  	  	<ng-template pTemplate="content">
-  	  	  	  	<p>{{ item.name }} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa atque earum omnis. Sequi soluta explicabo aliquam cupiditate optio quia. Cupiditate dicta quas atque aperiam vero eum facere corporis voluptate adipisci!</p>
-  	  	  	</ng-template>
-			
-  	  	  	<ng-template pTemplate="footer">
-  	  	  	  	<p-button 
+				<p-divider />
+				
+				<div class="tags-container flex justify-center">
+					<p-tag icon="pi pi-hashtag" value="azure" />
+					<p-tag icon="pi pi-hashtag" value="education" />
+					<p-tag icon="pi pi-hashtag" value="quiz" />
+				</div>
+				
+				<ng-template pTemplate="content">
+					<p>{{ item.name }} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa atque earum omnis. Sequi soluta explicabo aliquam cupiditate optio quia. Cupiditate dicta quas atque aperiam vero eum facere corporis voluptate adipisci!</p>
+				</ng-template>
+				
+				<ng-template pTemplate="footer">
+					<p-button 
 					label="View collection" 
 					[link]="true"
 					[routerLink]="'/quiz-collections/' + item.id + '/questions'"/>
-  	  	  	</ng-template>
+				</ng-template>
   	  	</p-card>
-  	</div>
-  
+	</div>
+	
 	<div class="paginator-container flex justify-center">
-    	<p-paginator 
-			[first]="firstCounter"
-			(onPageChange)="onPageChange($event)"
-			[rows]="paginationModel.pageSize" 
-			[totalRecords]="response.totalCount"/>
+		<p-paginator 
+		[first]="firstCounter"
+		(onPageChange)="onPageChange($event)"
+		[rows]="paginationModel.pageSize" 
+		[totalRecords]="response.totalCount"/>
 	</div>
 </div>
   

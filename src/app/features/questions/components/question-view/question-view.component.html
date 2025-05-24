@@ -1,21 +1,41 @@
 <!-- quiz-collection.component.html -->
 <div *ngIf="pagedResponse$ | async as pagedResponse; else loading">
   <div *ngFor="let question of pagedResponse.items">
-    <h3>Question Type: {{ question.type }}</h3>
+    <!-- <h3>Question Type: {{ question.type }}</h3> -->
 
     <!-- Option 2: Parse and display JSON as formatted text (if it's a JSON object) -->
     <div *ngIf="isJson(question.questionJson)">
-      <pre>{{ question.questionJson | json }}</pre>
-      <div>{{getSingleSelectResponse(question.questionJson).Id}}</div>
+      <!-- <pre>{{ question.questionJson | json }}</pre> -->
+      <!-- <div>{{getSingleSelectResponse(question.questionJson).Id}}</div> -->
+      <ng-container
+        *ngComponentOutlet="componentMap[question.type]; injector: dynamicInjector">
+      </ng-container>
 
-        <ng-container *ngFor="let question of pagedResponse.items">
-          <ng-container
-            *ngComponentOutlet="componentMap[question.type]; injector: createInjector(question.questionJson)">
-          </ng-container>
-        </ng-container>
-
-
+      <p-button [disabled]="!pagedResponse.hasPreviousPage" label="Previous" [rounded]="true" (click)="fetchPreviousQuestion()" severity="secondary" styleClass="min-w-40"/>
+      <p-button [disabled]="!pagedResponse.hasNextPage" label="Next" [rounded]="true" (click)="fetchNextQuestion()" severity="secondary" styleClass="min-w-40"/>
     </div>
+        <div class="flex flex-wrap justify-center gap-2">
+          <p-button  
+            icon="pi pi-arrow-left" 
+            [disabled]="!pagedResponse.hasPreviousPage" 
+            label="Previous" 
+            [rounded]="true" 
+            (click)="fetchPreviousQuestion()" 
+            severity="secondary" 
+            styleClass="min-w-40" />
+          
+            <p-button label="     " severity="secondary" styleClass="min-w-40" />
+          
+          <p-button  
+            icon="pi pi-arrow-right" 
+            [disabled]="!pagedResponse.hasNextPage" 
+            label="Next" 
+            [rounded]="true" 
+            (click)="fetchNextQuestion()" 
+            severity="secondary" 
+            styleClass="min-w-40" 
+            iconPos="right"/>
+        </div>
   </div>
 </div>
 

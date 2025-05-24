@@ -1,2 +1,22 @@
-<p>single-select-question works!</p>
-<div>{{this.data}}</div>
+<p-card [header]="this.singleSelectQuestion.text">
+    <p-divider />
+    <ng-template pTemplate="content">
+        <div *ngFor="let answer of singleSelectQuestion.answers">
+            <p-radiobutton [inputId]="answer.id" name="category" [value]="answer" [(ngModel)]="answerId" size="large" />
+            <label [for]="answer.id">{{ answer.value }}</label>
+        </div>
+    </ng-template>
+</p-card>
+
+
+
+<!-- <form class="flex flex-col gap-4" [formGroup]="formGroup">
+    <div style="width: 100px; height: 100px"
+        >
+        <p-radiobutton 
+            [inputId]="'asda'" 
+            [value]="'asdasd'" 
+            name="selectedCategory"
+            formControlName="selectedCategory" />
+    </div>
+</form> -->

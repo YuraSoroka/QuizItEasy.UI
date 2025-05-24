@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
-import { DATA } from '../question-view/question-view.component';
+import { QUESTION_DATA } from '../../../../shared/utility/tokens/data.token';
 
 @Component({
   selector: 'multi-select-question',
@@ -9,5 +9,6 @@ import { DATA } from '../question-view/question-view.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultiSelectQuestionComponent { 
-  constructor(@Inject(DATA) public data: string) {}
+  constructor(@Inject(QUESTION_DATA) public data: string) {
+  }
 }

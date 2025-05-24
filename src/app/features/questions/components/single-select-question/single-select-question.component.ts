@@ -1,17 +1,46 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
-import { DATA } from '../question-view/question-view.component';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { QUESTION_DATA } from '../../../../shared/utility/tokens/data.token';
+import { SingleSelectQuestionResponse } from '../../interfaces/single-select-question-response';
+import { CommonModule } from '@angular/common';
+import { CardModule } from 'primeng/card';
+import { DividerModule } from 'primeng/divider';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StyleClassModule } from 'primeng/styleclass';
 
 @Component({
   selector: 'single-select-question',
-  imports: [],
+  imports: [
+    CommonModule,
+    CardModule,
+    DividerModule,
+    RadioButtonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    StyleClassModule
+  ],
   templateUrl: './single-select-question.component.html',
   styleUrl: './single-select-question.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class SingleSelectQuestionComponent implements OnInit {
-  ngOnInit(): void {
-    console.log(this.data);
-  } 
-  //@Input() data!: any;
-  constructor(@Inject(DATA) public data: string) {}
+export class SingleSelectQuestionComponent implements OnInit{
+
+  answerId!: string;
+  formGroup!: FormGroup;
+  public singleSelectQuestion!: SingleSelectQuestionResponse;
+
+  constructor(
+    @Inject(QUESTION_DATA) public data: string
+    ) {
+    this.singleSelectQuestion = JSON.parse(data) as SingleSelectQuestionResponse;
+    console.log(this.singleSelectQuestion);
+    console.log(data);
+  }
+
+  ngOnInit() {
+        this.formGroup = new FormGroup({
+            selectedCategory: new FormControl()
+        });
+        console.log("oninit")
+    }
 }

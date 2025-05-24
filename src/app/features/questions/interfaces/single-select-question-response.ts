@@ -1,10 +1,10 @@
 export interface SingleSelectQuestionResponse {
-  Id: string;
-  Text: string;
-  Answers: Answer[];
+  id: string;
+  text: string;
+  answers: Answer[];
 }
 
 export interface Answer {
-  Id: string;
-  Value: string;
+  id: string;
+  value: string;
 }

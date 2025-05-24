@@ -1,65 +1,80 @@
 import { ChangeDetectionStrategy, Component, InjectionToken, Injector, OnInit, Type } from '@angular/core';
 import { QuestionsService } from '../../services/questions.service';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { PagedResponse } from '../../../../shared/interfaces/paged-response';
 import { QuestionResponse } from '../../../../shared/interfaces/question-response';
 import { CommonModule } from '@angular/common';
 import { PaginationModel } from '../../../../shared/models/pagination.model';
 import { ActivatedRoute } from '@angular/router';
-import { SingleSelectQuestionResponse } from '../../interfaces/single-select-question-response';
-import { SingleSelectQuestionComponent } from '../single-select-question/single-select-question.component';
 import { MultiSelectQuestionComponent } from '../multi-select-question/multi-select-question.component';
+import { QUESTION_DATA } from '../../../../shared/utility/tokens/data.token';
+import { SingleSelectQuestionComponent } from '../single-select-question/single-select-question.component';
+import { ButtonModule } from 'primeng/button';
+import { StyleClassModule } from 'primeng/styleclass';
 
 @Component({
-  selector: 'question-view',
-  imports: [CommonModule],
-  templateUrl: './question-view.component.html',
-  styleUrl: './question-view.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'question-view',
+	imports: [
+		CommonModule,
+		ButtonModule,
+		StyleClassModule
+	],
+	templateUrl: './question-view.component.html',
+	styleUrl: './question-view.component.scss',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestionViewComponent implements OnInit {
 
-  paginationModel : PaginationModel = new PaginationModel(1);
-  pagedResponse$: Observable<PagedResponse<QuestionResponse>> = of();
+	collectionId: string;
+	dynamicInjector!: Injector;
+	paginationModel: PaginationModel = new PaginationModel(1);
+	pagedResponse$: Observable<PagedResponse<QuestionResponse>> = of();
 
-  componentMap: Record<string, Type<any>> = {
-    SingleSelectQuestion: SingleSelectQuestionComponent,
-    MultiSelectQuestion: MultiSelectQuestionComponent
-  };
+	componentMap: Record<string, Type<any>> = {
+		SingleSelectQuestion: SingleSelectQuestionComponent,
+		MultiSelectQuestion: MultiSelectQuestionComponent
+	};
 
-  constructor(
-    private questionService: QuestionsService,
-    private route: ActivatedRoute,
-    private injector: Injector){ }
-  
-  ngOnInit(): void {
-    let collectionId = this.route.snapshot.paramMap.get('collectionId');
-    
-    this.pagedResponse$ = this.questionService.getQuizCollections(
-      collectionId!, 
-      this.paginationModel.pageNumber);
-  }
+	constructor(
+		private questionService: QuestionsService,
+		private route: ActivatedRoute,
+		private injector: Injector) { 
+			this.collectionId = this.route.snapshot.paramMap.get('collectionId')!;
+		}
 
-  isJson(str: string): boolean {
-    try {
-      JSON.parse(str);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
+	ngOnInit(): void {
+		this.pagedResponse$ = this.loadQuestion();
+	}
 
-  getSingleSelectResponse(json: string): SingleSelectQuestionResponse{
-    return JSON.parse(json) as SingleSelectQuestionResponse;
-  }
+	isJson(str: string): boolean {
+		try {
+			JSON.parse(str);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
 
+	
+	fetchNextQuestion() {
+		this.paginationModel.pageNumber++;
+		this.pagedResponse$ = this.loadQuestion();
+	}
 
-  createInjector(data: string): Injector {
-    return Injector.create({
-      providers: [{ provide: DATA, useValue: data }],
-      parent: this.injector
-    });
-  }
+	fetchPreviousQuestion() {
+		this.paginationModel.pageNumber--;
+		this.pagedResponse$ = this.loadQuestion();
+	}
+
+	private loadQuestion(): Observable<PagedResponse<QuestionResponse>>{
+		return this.questionService.getQuizCollections(this.collectionId, this.paginationModel.pageNumber)
+			.pipe(
+				map(response => {
+					this.dynamicInjector = Injector.create({
+						providers: [{ provide: QUESTION_DATA, useValue: response.items[0].questionJson }],
+						parent: this.injector
+					});
+					return response;
+				}));
+	}
 }
-
-export const DATA = new InjectionToken<any>('DATA');
