@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 @import "primeicons/primeicons.css";
 
 body{
@@ -12,16 +13,4 @@ body{
     width: 1504px;
     margin-left: auto;
     margin-right: auto;
-}
-
-.flex{
-    display: flex;
-}
-
-.flex-col {
-    flex-direction: column;
-}
-
-.justify-center{
-    justify-content: center;
 }
