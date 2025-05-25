@@ -12,7 +12,7 @@
       </ng-container>
 
     </div>
-        <div class="flex flex-wrap justify-center gap-2">
+        <div class="flex justify-between items-center my-6">
           <p-button  
             icon="pi pi-arrow-left" 
             [disabled]="!pagedResponse.hasPreviousPage" 
@@ -21,8 +21,6 @@
             (click)="fetchPreviousQuestion()" 
             severity="secondary" 
             styleClass="min-w-40" />
-          
-            <p-button label="     " severity="secondary" styleClass="min-w-40" />
           
           <p-button  
             icon="pi pi-arrow-right" 

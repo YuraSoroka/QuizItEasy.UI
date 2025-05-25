@@ -5,8 +5,10 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { StyleClassModule } from 'primeng/styleclass';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { QuestionData } from '../../../../shared/models/question-data.model';
+import { SingleSelectQuestionsService } from '../../services/single-select-questions.service';
 
 @Component({
   selector: 'single-select-question',
@@ -17,30 +19,33 @@ import { StyleClassModule } from 'primeng/styleclass';
     RadioButtonModule,
     ReactiveFormsModule,
     FormsModule,
-    StyleClassModule
+    ButtonModule
   ],
   templateUrl: './single-select-question.component.html',
   styleUrl: './single-select-question.component.scss',
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class SingleSelectQuestionComponent implements OnInit{
+export class SingleSelectQuestionComponent {
 
+  questionNumber: number;
   answerId!: string;
-  formGroup!: FormGroup;
   public singleSelectQuestion!: SingleSelectQuestionResponse;
 
   constructor(
-    @Inject(QUESTION_DATA) public data: string
-    ) {
-    this.singleSelectQuestion = JSON.parse(data) as SingleSelectQuestionResponse;
+    @Inject(QUESTION_DATA) private data: QuestionData,
+    private singleSelectQuestionService: SingleSelectQuestionsService
+  ) {
+    this.singleSelectQuestion = JSON.parse(data.questionData) as SingleSelectQuestionResponse;
+    this.questionNumber = data.questionNumber;
     console.log(this.singleSelectQuestion);
     console.log(data);
   }
 
-  ngOnInit() {
-        this.formGroup = new FormGroup({
-            selectedCategory: new FormControl()
-        });
-        console.log("oninit")
-    }
+  checkAnswer(selectedAnswerId: string){
+    this.singleSelectQuestionService.checkSingleSelectAnswer(
+      this.singleSelectQuestion.id, 
+      selectedAnswerId
+    )
+    .subscribe(e => console.log(e));
+  }
 }
