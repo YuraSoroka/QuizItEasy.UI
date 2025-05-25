@@ -1,5 +1,6 @@
 :host ::ng-deep .p-card{
     box-shadow: none;
     border-radius: 10px;
-    border: 1px solid var(--p-surface-200);
+    border: 2px solid var(--p-surface-300);
+    background-color: var(--p-slate-50);
 }

@@ -9,17 +9,17 @@ import { QuestionResponse } from '../../../shared/interfaces/question-response';
 })
 export class QuestionsService {
 
-  private baseUrl = 'https://localhost:7080/quiz-collections';
+	private baseUrl = 'https://localhost:7080/quiz-collections';
 
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient) { }
 
-  	getQuizCollections(collectionId: string, pageNumber:number): Observable<PagedResponse<QuestionResponse>> {
-  	  	
-        let params = new HttpParams()
-  			.set('pageNumber', pageNumber);
+	getQuizCollections(collectionId: string, pageNumber: number): Observable<PagedResponse<QuestionResponse>> {
 
-        let apiUrl = this.baseUrl + `/${collectionId}/questions`;
-			
-    	return this.http.get<PagedResponse<QuestionResponse>>(apiUrl, { params });
-  	}
+		let params = new HttpParams()
+			.set('pageNumber', pageNumber);
+
+		let apiUrl = this.baseUrl + `/${collectionId}/questions`;
+
+		return this.http.get<PagedResponse<QuestionResponse>>(apiUrl, { params });
+	}
 }

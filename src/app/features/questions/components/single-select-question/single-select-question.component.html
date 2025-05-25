@@ -1,22 +1,36 @@
-<p-card [header]="this.singleSelectQuestion.text">
-    <p-divider />
-    <ng-template pTemplate="content">
-        <div *ngFor="let answer of singleSelectQuestion.answers">
-            <p-radiobutton [inputId]="answer.id" name="category" [value]="answer" [(ngModel)]="answerId" size="large" />
-            <label [for]="answer.id">{{ answer.value }}</label>
+<div>
+    <p-card [header]="'Question ' + this.questionNumber">
+        <div class="text-2xl my-5 font-light">
+            {{this.singleSelectQuestion.text}} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut est facere magnam iusto perspiciatis sint corrupti accusamus ullam sit. Aspernatur illo cupiditate doloribus dolore dolorum voluptatum cumque tenetur corporis adipisci.
         </div>
-    </ng-template>
-</p-card>
+        <p-divider/>
+        <ng-template pTemplate="content">
+            <div class=" transition-all duration-200 hover:bg-gray-100 hover:cursor-pointer hover:rounded-xl" 
+                *ngFor="let answer of singleSelectQuestion.answers">
 
+                <label class="text-lg min-w-dvw hover:cursor-pointer transition-colors duration-200" [for]="answer.id">
+                    <div class="flex flex-wrap gap-4 h-15 items-center mx-3">
+                        <p-radiobutton 
+                            [inputId]="answer.id" 
+                            name="category" 
+                            [value]="answer.id" 
+                            [(ngModel)]="answerId"
+                            size="large"/>
+                        {{ answer.value }}
+                    </div>
+                </label>
 
-
-<!-- <form class="flex flex-col gap-4" [formGroup]="formGroup">
-    <div style="width: 100px; height: 100px"
-        >
-        <p-radiobutton 
-            [inputId]="'asda'" 
-            [value]="'asdasd'" 
-            name="selectedCategory"
-            formControlName="selectedCategory" />
-    </div>
-</form> -->
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="flex flex-wrap justify-center">
+                <p-button 
+                    label="Check answer" 
+                    [rounded]="true" 
+                    severity="primary" 
+                    styleClass="min-w-50" 
+                    (onClick)="checkAnswer(answerId)"/>
+            </div>
+        </ng-template>
+    </p-card>
+</div>

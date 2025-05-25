@@ -11,6 +11,7 @@ import { QUESTION_DATA } from '../../../../shared/utility/tokens/data.token';
 import { SingleSelectQuestionComponent } from '../single-select-question/single-select-question.component';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
+import { QuestionData } from '../../../../shared/models/question-data.model';
 
 @Component({
 	selector: 'question-view',
@@ -71,7 +72,10 @@ export class QuestionViewComponent implements OnInit {
 			.pipe(
 				map(response => {
 					this.dynamicInjector = Injector.create({
-						providers: [{ provide: QUESTION_DATA, useValue: response.items[0].questionJson }],
+						providers: [{ 
+							provide: QUESTION_DATA, 
+							useValue: new QuestionData(this.paginationModel.pageNumber, response.items[0].questionJson)
+						}],
 						parent: this.injector
 					});
 					return response;
