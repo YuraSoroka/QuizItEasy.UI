@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PaginationModel } from '../../../../shared/models/pagination.model';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -15,7 +15,6 @@ import { TagModule } from 'primeng/tag';
 import { DividerModule } from 'primeng/divider';
 import { PaginatorModule } from 'primeng/paginator';
 import { RouterLink } from '@angular/router';
-import { RadioButtonModule } from 'primeng/radiobutton';
 
 @Component({
 	selector: 'quiz-collection',
@@ -39,7 +38,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 
 export class QuizCollectionComponent implements OnInit { 
 
-	paginationModel : PaginationModel = new PaginationModel(6);
+	paginationModel : PaginationModel = new PaginationModel(null, 6);
 	pagedResponse$: Observable<PagedResponse<QuizCollectionItem>> = of();
   	firstCounter: number = 0; 
 	

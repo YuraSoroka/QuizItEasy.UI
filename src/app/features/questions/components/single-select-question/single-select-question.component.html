@@ -5,7 +5,7 @@
         </div>
         <p-divider/>
         <ng-template pTemplate="content">
-            <div class=" transition-all duration-200 hover:bg-gray-100 hover:cursor-pointer hover:rounded-xl" 
+            <div class=" transition-all duration-200 hover:bg-[var(--p-surface-200)] hover:cursor-pointer hover:rounded-xl" 
                 *ngFor="let answer of singleSelectQuestion.answers">
 
                 <label class="text-lg min-w-dvw hover:cursor-pointer transition-colors duration-200" [for]="answer.id">

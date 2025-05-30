@@ -1,10 +1,10 @@
 export class PaginationModel {
     
-    constructor(pageSize: number, pageNumber: number = 1) {
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;    
+    constructor(pageNumber: number|null, pageSize: number|null) {
+        this.pageNumber = pageNumber ?? 1;
+        this.pageSize = pageSize ?? 10;
     }
 
-    pageSize: number = 10;
-    pageNumber: number = 1;
+    pageSize: number;
+    pageNumber: number;
 } 
