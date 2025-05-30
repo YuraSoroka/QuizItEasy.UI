@@ -1,35 +1,40 @@
-import { ChangeDetectionStrategy, Component, InjectionToken, Injector, OnInit, Type } from '@angular/core';
-import { QuestionsService } from '../../services/questions.service';
-import { map, Observable, of } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, Type } from '@angular/core';
+import { filter, map, merge, Observable, of } from 'rxjs';
 import { PagedResponse } from '../../../../shared/interfaces/paged-response';
 import { QuestionResponse } from '../../../../shared/interfaces/question-response';
 import { CommonModule } from '@angular/common';
 import { PaginationModel } from '../../../../shared/models/pagination.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ResolveEnd, ResolveStart, Router } from '@angular/router';
 import { MultiSelectQuestionComponent } from '../multi-select-question/multi-select-question.component';
 import { QUESTION_DATA } from '../../../../shared/utility/tokens/data.token';
 import { SingleSelectQuestionComponent } from '../single-select-question/single-select-question.component';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { QuestionData } from '../../../../shared/models/question-data.model';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
 	selector: 'question-view',
 	imports: [
 		CommonModule,
 		ButtonModule,
-		StyleClassModule
+		StyleClassModule,
+		ProgressSpinnerModule
 	],
 	templateUrl: './question-view.component.html',
 	styleUrl: './question-view.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestionViewComponent implements OnInit {
+	private _showLoaderEvents$!: Observable<boolean>;
+	private _hideLoaderEvents$!: Observable<boolean>;
 
-	collectionId: string;
+	isLoading: boolean = true;
+	isLoading$: Observable<boolean> = of(true);
+	collectionId!: string;
 	dynamicInjector!: Injector;
-	paginationModel: PaginationModel = new PaginationModel(1);
-	pagedResponse$: Observable<PagedResponse<QuestionResponse>> = of();
+	paginationModel!: PaginationModel;
+	pagedResponse!: PagedResponse<QuestionResponse>;
 
 	componentMap: Record<string, Type<any>> = {
 		SingleSelectQuestion: SingleSelectQuestionComponent,
@@ -37,14 +42,28 @@ export class QuestionViewComponent implements OnInit {
 	};
 
 	constructor(
-		private questionService: QuestionsService,
+		private router: Router,
 		private route: ActivatedRoute,
-		private injector: Injector) { 
-			this.collectionId = this.route.snapshot.paramMap.get('collectionId')!;
-		}
+		private injector: Injector) {
+	}
 
 	ngOnInit(): void {
-		this.pagedResponse$ = this.loadQuestion();
+		const pageNumber = +this.route.snapshot.queryParamMap.get('pageNumber')! || 1;
+		this.paginationModel = new PaginationModel(pageNumber, null);
+		
+		this.route.data.subscribe(data => {
+			this.collectionId = data['collectionId'];
+			this.pagedResponse = data['questionResponse']; 
+			this.dynamicInjector = this.resolveInjector();
+		});
+
+		this._showLoaderEvents$ = this.router.events.pipe(
+			filter((e) => e instanceof ResolveStart), map(_ => true)
+		);
+		this._hideLoaderEvents$ = this.router.events.pipe(
+			filter((e) => e instanceof ResolveEnd), map(_ => false)
+		);
+		this.isLoading$ = merge(this._hideLoaderEvents$, this._showLoaderEvents$);
 	}
 
 	isJson(str: string): boolean {
@@ -56,29 +75,24 @@ export class QuestionViewComponent implements OnInit {
 		}
 	}
 
-	
-	fetchNextQuestion() {
-		this.paginationModel.pageNumber++;
-		this.pagedResponse$ = this.loadQuestion();
+	moveToQuestion(pageNumber: number) {
+		this.paginationModel.pageNumber = pageNumber;
+
+		this.router.navigate([], {
+			relativeTo: this.route,
+			queryParams: { pageNumber: this.paginationModel.pageNumber },
+			queryParamsHandling: 'merge',
+		});
 	}
 
-	fetchPreviousQuestion() {
-		this.paginationModel.pageNumber--;
-		this.pagedResponse$ = this.loadQuestion();
-	}
 
-	private loadQuestion(): Observable<PagedResponse<QuestionResponse>>{
-		return this.questionService.getQuizCollections(this.collectionId, this.paginationModel.pageNumber)
-			.pipe(
-				map(response => {
-					this.dynamicInjector = Injector.create({
-						providers: [{ 
-							provide: QUESTION_DATA, 
-							useValue: new QuestionData(this.paginationModel.pageNumber, response.items[0].questionJson)
-						}],
-						parent: this.injector
-					});
-					return response;
-				}));
+	private resolveInjector(): Injector {
+		return Injector.create({
+			providers: [{
+				provide: QUESTION_DATA,
+				useValue: new QuestionData(this.paginationModel.pageNumber, this.pagedResponse.items[0].questionJson)
+			}],
+			parent: this.injector
+		});
 	}
 }

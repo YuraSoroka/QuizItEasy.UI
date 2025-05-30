@@ -1,41 +1,24 @@
-<!-- quiz-collection.component.html -->
-<div *ngIf="pagedResponse$ | async as pagedResponse; else loading">
-  <div *ngFor="let question of pagedResponse.items">
-    <!-- <h3>Question Type: {{ question.type }}</h3> -->
+<div *ngIf="!(isLoading$ | async) && pagedResponse">
 
-    <!-- Option 2: Parse and display JSON as formatted text (if it's a JSON object) -->
+  <div *ngFor="let question of this.pagedResponse.items">
     <div *ngIf="isJson(question.questionJson)">
       <!-- <pre>{{ question.questionJson | json }}</pre> -->
       <!-- <div>{{getSingleSelectResponse(question.questionJson).Id}}</div> -->
-      <ng-container
-        *ngComponentOutlet="componentMap[question.type]; injector: dynamicInjector">
+      <ng-container *ngComponentOutlet="componentMap[question.type]; injector: dynamicInjector">
       </ng-container>
 
     </div>
-        <div class="flex justify-between items-center my-6">
-          <p-button  
-            icon="pi pi-arrow-left" 
-            [disabled]="!pagedResponse.hasPreviousPage" 
-            label="Previous" 
-            [rounded]="true" 
-            (click)="fetchPreviousQuestion()" 
-            severity="secondary" 
-            styleClass="min-w-40" />
-          
-          <p-button  
-            icon="pi pi-arrow-right" 
-            [disabled]="!pagedResponse.hasNextPage" 
-            label="Next" 
-            [rounded]="true" 
-            (click)="fetchNextQuestion()" 
-            severity="secondary" 
-            styleClass="min-w-40" 
-            iconPos="right"/>
-        </div>
+    <div class="flex justify-between items-center my-6">
+      <p-button icon="pi pi-arrow-left" [disabled]="!pagedResponse.hasPreviousPage" label="Previous" [rounded]="true"
+        (click)="moveToQuestion(this.paginationModel.pageNumber - 1)" severity="secondary" styleClass="min-w-40" />
+
+      <p-button icon="pi pi-arrow-right" [disabled]="!pagedResponse.hasNextPage" label="Next" [rounded]="true"
+        (click)="moveToQuestion(this.paginationModel.pageNumber + 1)" severity="secondary" styleClass="min-w-40"
+        iconPos="right" />
+    </div>
   </div>
 </div>
 
-<!-- Loading indicator or empty state -->
-<ng-template #loading>
-  Loading questions...
-</ng-template>
+<div *ngIf="this.isLoading$ | async" class="flex items-center justify-center h-[calc(100vh-6rem)]">
+  <p-progress-spinner ariaLabel="loading" />
+</div>

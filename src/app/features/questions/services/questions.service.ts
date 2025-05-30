@@ -13,7 +13,7 @@ export class QuestionsService {
 
 	constructor(private http: HttpClient) { }
 
-	getQuizCollections(collectionId: string, pageNumber: number): Observable<PagedResponse<QuestionResponse>> {
+	getQuizQuestion(collectionId: string, pageNumber: number): Observable<PagedResponse<QuestionResponse>> {
 
 		let params = new HttpParams()
 			.set('pageNumber', pageNumber);
