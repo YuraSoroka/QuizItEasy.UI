@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MegaMenuItem } from 'primeng/api';
@@ -8,7 +8,7 @@ import { MegaMenu } from 'primeng/megamenu';
 
 @Component({
   selector: 'menubar',
-  imports: [MegaMenu, ButtonModule, CommonModule, AvatarModule, RouterLink],
+  imports: [MegaMenu, ButtonModule, AvatarModule, RouterLink],
   templateUrl: './menubar.component.html',
   styleUrl: './menubar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

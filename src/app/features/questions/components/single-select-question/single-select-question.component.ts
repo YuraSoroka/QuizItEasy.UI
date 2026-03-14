@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { QUESTION_DATA } from '../../../../shared/utility/tokens/data.token';
 import { SingleSelectQuestionResponse } from '../../interfaces/single-select-question-response';
-import { CommonModule } from '@angular/common';
+
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -13,14 +13,13 @@ import { SingleSelectQuestionsService } from '../../services/single-select-quest
 @Component({
   selector: 'single-select-question',
   imports: [
-    CommonModule,
     CardModule,
     DividerModule,
     RadioButtonModule,
     ReactiveFormsModule,
     FormsModule,
     ButtonModule
-  ],
+],
   templateUrl: './single-select-question.component.html',
   styleUrl: './single-select-question.component.scss',
   changeDetection: ChangeDetectionStrategy.Default,
